@@ -1,0 +1,500 @@
+/*Tabs menu*/
+.marmenu_blue {
+    clear: both;
+    width: 100%;
+    height: 30px;
+    background-color: #002b54;
+    direction:ltr;
+}
+.marmenu_ul {list-style:none; margin:0; padding:0}
+.marmenu_ul * {margin:0; padding:0}
+.marmenu_ul a {display:block; padding: 7px 10px 0; color:#ffffff; text-decoration:none; height: 23px; cursor:pointer}
+.marmenu_ul a:hover {background-color:#1e90ff; color:#ffffff}
+.marmenu_ul li {position:relative; float:left;z-index:99}
+.marmenu_ul li.menuhover {background-color:#1e90ff; color:#ffffff}
+.marmenu_ul ul {display:none; position:absolute; top:30px; left:-1px; background-color:#ffffff; display:none; list-style:none}
+.marmenu_ul li:hover ul {display:block}
+.marmenu_ul ul li {border:1px solid #002b54; border-top:none; width:100%}
+.marmenu_ul ul li {*width:260px} /* hack ie7 and below*/
+.marmenu_ul ul li a {color:#002b54; background-color:#ffffff}
+.marmenu_ul li.submenu a {background:#ffffff url(../../img/arrow_right.gif) 98% 50% no-repeat}
+.marmenu_ul li.submenu a:hover {background:#1e90ff url(../../img/arrow_right.gif) 98% 50% no-repeat; color:#ffffff}
+.marmenu_ul ul ul {left:100%; top:-1px}
+.marmenu_ul li:hover ul ul {display:none}
+.marmenu_ul li:hover ul li:hover ul {display:block}
+.marmenu_ul ul li ul li.topborder {border:1px solid #002b54}
+.marmenu_ul li.submenu ul li a {color:#002b54; background:none; background-color:#ffffff}
+.marmenu_ul li.submenu ul li a:hover {background:#1e90ff; color:#ffffff}
+/*end Tabs menu*/
+
+.marmenu_ul li.new_arrow a {background:#ffffff url(../../img/new_arrow_right.png) 98% 50% no-repeat}
+.marmenu_ul li.new_arrow a:hover {background:#1e90ff url(../../img/new_arrow_right.png) 98% 50% no-repeat; color:#ffffff}
+
+.marmenu_ul ul li ul li.new a {background:#ffffff url(../../img/new.png) 98% 50% no-repeat; padding-right: 40px}
+.marmenu_ul ul li ul li.new a:hover {background:#1e90ff url(../../img/new.png) 98% 50% no-repeat; color:#ffffff; padding-right: 40px}
+
+.marmenu_ul li.new a {background:#ffffff url(../../img/new.png) 98% 50% no-repeat; padding-right: 40px}
+.marmenu_ul li.new a:hover {background:#1e90ff url(../../img/new.png) 98% 50% no-repeat; color:#ffffff; padding-right: 40px}
+
+/*Combo language*/
+.marmenutab_language {
+	float: right;
+    padding-right: 3px;
+    padding-top: 4px;
+}
+.marmenutab_language select {
+	color: #002b54;
+}
+.marmenutab_language select option:hover {
+    background-color:  #002b54;
+    color: #ffffff;
+}
+/*end Combo language*/
+
+/*Login button*/
+.marmenutab_login {
+    float: right !important;
+    margin: 0 3px 0 0;
+}
+.marmenutab_login a {
+    padding: 4px 10px 0;
+    height: 26px;
+}
+
+.marmenutab_login a img {
+    margin-bottom: -1px;
+    width: 14px;
+}
+.marmenutab_login li.submenu a {
+    background: url("../../img/arrow_down.gif") no-repeat scroll 98% 50% #002b54;
+    padding: 7px 15px 0;
+    height: 23px;
+}
+.marmenutab_login li.submenu a:hover {
+    background:#1e90ff url(../../img/arrow_down.gif) 98% 50% no-repeat;
+    color:#ffffff;
+}
+/*end Login button*/
+
+/*Restriction Popup*/
+.Div_PopupRestriction {
+    position:absolute;
+	z-index:1000;
+	border:1px solid #002b54;
+	background-color:#002b54;
+	color:white;
+	width:880px;
+	height:662px;
+	left:45%;
+	top:45%;
+	margin-left:-400px;
+	margin-top:-278px;
+}
+.div_headerPopupRestriction {
+	height:26px;
+}
+.div_headerPopupRestriction_title {
+	float:left;
+	width:88%;
+	height:100%;
+	text-align:center;
+}
+.iframe_popupRestriction {
+    background-color:White;
+	color:#002b54;
+	width:99.8%;
+	height:89.9%;
+	border-left:1px solid #002b54;
+	border-right:1px solid #002b54;
+	border-bottom:1px solid #002b54;
+}
+.div_PopupRestrictionButtonContinue {
+	text-align:right;
+	margin-top:2px;
+}
+.maskedDiv50 {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.5;
+	filter: alpha(opacity = 50);
+}
+/*end Restriction Popup*/
+
+
+/*Whats new Popup*/
+.Div_PopupNews {
+    position:absolute;
+	z-index:1000;
+	border:1px solid #002b54;
+	background-color:#002b54;
+	color:white;
+	width:600px;
+	height:400px;
+	left:45%;
+	top:45%;
+	margin-left:-220px;
+	margin-top:-278px;
+}
+.div_popupNews_body {
+    background-color:White;
+	color:#002b54;
+	width:93%;
+	height:74%;
+	border-left:1px solid #002b54;
+	border-right:1px solid #002b54;
+	border-bottom:1px solid #002b54;
+    padding:20px;
+}
+/*end Whats new Popup*/
+
+
+/*Popup window*/
+.div_popup {
+	position:absolute;
+	visibility:hidden;
+	z-index:1000;
+	border:1px solid #002b54;
+	background-color:#002b54;
+	color:white;
+    width:600px;
+    height:250px;
+}
+.div_headerPopup {
+	height:26px;
+}
+.div_headerPopup_title {
+	float:left;
+	width:88%;
+	height:100%;
+	text-align:center;
+}
+.div_headerPopup_title2 {
+	margin-left:60px;
+	margin-top:5px;
+}
+.div_headerPopup_icon {
+	float:right;
+}
+.iframe_popup {
+	background-color:White;
+	color:#002b54;
+	width:99.6%;
+	height:95.2%;
+	border-left:1px solid #002b54;
+	border-right:1px solid #002b54;
+	border-bottom:1px solid #002b54;
+}
+.img_headerPopup {
+    cursor:pointer;
+    width:20px;
+    height:20px;
+}
+.img_Metadata img {
+	margin-bottom:-2px;
+	padding-left:7px;
+}
+.img_MetadataTitle img {
+	padding-left: 7px;
+	padding-bottom: 1px;
+}
+.buttonMetadata_gridViewHeader {
+	border: none;
+    margin-left: 10px;
+    margin-bottom: -1px;
+    height:15px;
+    vertical-align:bottom;
+    background: url("../../img/meta_yellow.png") no-repeat 0 0;
+    cursor:pointer;
+}
+/*end Popup window*/
+
+/*Column picker popup*/
+.maskedDiv70 {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.70;
+	filter: alpha(opacity = 70);
+}
+.Div_PopupColumnPicker {
+    left: 50%;
+    margin: -316px -370px;
+    position: absolute;
+    top: 50%;
+    z-index: 1000;
+    color: white;
+}
+.div_buttonsPopupColumnPicker {
+    margin: -10px 0 0;
+    text-align: center;
+}
+.table_categories td {
+    vertical-align:top;
+}
+.gridView_indicatorsCategories {
+    margin: 30px 30px 30px 0px;
+    width: 380px;
+    font-weight: bold;
+}
+.gridView_indicatorsCategories th {
+    border-bottom: 1px solid white;
+    text-align: left;
+}
+.gridView_indicatorsCategories td {
+   padding-top:15px;
+}
+.gridView_indicatorsCategories input[type='checkbox'] {
+    margin-right: 15px;
+    float:left;
+}
+.gridView_indicatorsCategories .disabled input[type='checkbox'] {
+    opacity:0.45;
+    filter: alpha(opacity = 45);
+}
+.gridView_indicatorsCategories label {
+    display: inline-block;
+    width: 340px;
+}
+.indicators_notAvailableLegend {
+    font-style: italic;
+}
+#ctl00_PageContent_MyGridView1 .buttonColumnPicker {
+    background: url("../../img/down_arrow_black.png") no-repeat 96% 30%;
+    padding-right:20px;
+}
+#ctl00_PageContent_MyGridView1 .buttonColumnPicker:hover {
+    background: url("../../img/down_arrow_white.png") no-repeat 96% 30%;
+}
+/*end Column picker popup*/
+
+/*Revision graph popup*/
+#Div_PopupRevisionGraphControl {
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    top: 15%;
+    max-width: 975px;
+    width:100%;
+    /*left: 50%;
+    margin: -316px -510px;
+    position: absolute;
+    top: 50%;
+    z-index: 1000;
+    background-color: white;
+    width:100%;*/
+}
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* aspect ratio */
+  vertical-align: top;
+  overflow: hidden;
+}
+.svg-content-responsive {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+}
+
+svg .rect {
+  fill: gold;
+  stroke: steelblue;
+  stroke-width: 5px;
+}
+
+#ctl00_Label_TitlePopupRevisionGraph {
+    font-size: 16px;
+    font-weight: bold;
+}
+/*end Revision graph popup*/
+
+/*Corresponding Product MPI popup*/
+#Div_PopupCorrespondingProductsMPIControl {
+	position: absolute;
+	z-index: 1000;
+	background-color: white;
+	top: 15%;
+	max-width: 575px;
+	width: 100%;
+	left: 25%;
+	/*margin: -316px -510px;
+    position: absolute;
+    top: 50%;
+    z-index: 1000;
+    background-color: white;
+    width:100%;*/
+}
+#Div_BodyCorrespondingProductsMPI {
+	margin: 20px
+}
+#Div_TableCorrespondingProductsMPI {
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 280px;
+}
+#ctl00_Label_TitleCorrespondingProductsMPI {
+	font-weight:bold;
+}
+.ProductsGridView {
+	border-radius: 15px;
+	border: 2px solid;
+}
+#ctl00_ProductsGridView th {
+	padding: 8px;
+	border-bottom:2px solid;
+}
+#ctl00_ProductsGridView td {
+	padding:8px;
+}
+/*end Corresponding Product MPI popup*/
+/*Tabs Table/Graph/Map*/
+#ctl00_PageContent_GridViewPanelControl_tabmenu {
+	height: 22px;
+	border-bottom: solid 1px;
+	border-color: #002b54;
+}
+
+#ctl00_PageContent_GridViewPanelControl_tabmenu ul {
+	float: left;
+	list-style: none;
+	padding: 0 0 0 18px;
+	margin:0;
+	height:100%;
+}
+
+#ctl00_PageContent_GridViewPanelControl_tabmenu li {
+	float: left;
+	height: 100%;
+}
+
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a {
+	height: 100%;
+	text-decoration: none;
+	cursor: pointer;
+	padding-left: 10px;
+	background: url(../../img/tabLeftOff.gif) left no-repeat;
+	float: left;
+	color: White;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a:active {
+	background: url(../../img/tabLeftOff_active.gif) left no-repeat;
+}
+/*hack IE7*/
+* + html #ctl00_PageContent_GridViewPanelControl_tabmenu li a{
+    margin-right:-10px;
+    border-bottom:1px solid #002b54;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a.restricted {
+	background: url(../../img/tabLeftOff_restricted.gif) left no-repeat;
+	color: #c48e8c;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a .wrap {
+	float: left;
+	background: url("../../img/tabRightOff.gif") no-repeat scroll right center transparent;
+	margin-right: 10px;
+	height: 100%;
+	width: 100%;
+	min-width: 65px;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a .wrap:active {
+	background: url("../../img/tabRightOff_active.gif") no-repeat scroll right center transparent;
+}
+/*hack IE7*/
+* + html #ctl00_PageContent_GridViewPanelControl_tabmenu li a .wrap{
+	padding-right: 10px;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a.restricted .wrap {
+	background: url("../../img/tabRightOff_restricted.gif") no-repeat scroll right center transparent;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a .innerwrap {
+	float: left;
+	background: url("../../img/tabMiddleOff.gif") repeat-x scroll 0 0 transparent;
+	text-align: center;
+	padding: 4px 10px 0;
+	height: 100%;
+	min-width: 65px;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a .innerwrap:active {
+	background: url("../../img/tabMiddleOff_active.gif") repeat-x scroll 0 0 transparent;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a.restricted .innerwrap {
+	background: url("../../img/tabMiddleOff_restricted.gif") repeat-x scroll 0 0 transparent;
+}
+
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a.selected {
+	background: url(../../img/tabLeftOn.gif) left no-repeat;
+	border-bottom: 1px solid #f5f5f5;
+	color: #002b54;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a.selected .wrap {
+	background: url("../../img/tabRightOn.gif") no-repeat scroll right center transparent;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a.selected .innerwrap {
+	background: url("../../img/tabMiddleOn.gif") repeat-x scroll 0 0 transparent;
+}
+
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a:hover .innerwrap {
+}
+
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a.disabled {
+	color: #acacac;
+	cursor: default;
+    background: url(../../img/tabLeftOff_disabled.gif) left no-repeat;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a.disabled .wrap {
+	background: url("../../img/tabRightOff_disabled.gif") no-repeat scroll right center transparent;
+}
+#ctl00_PageContent_GridViewPanelControl_tabmenu li a.disabled .innerwrap {
+	background: url("../../img/tabMiddleOff_disabled.gif") repeat-x scroll 0 0 transparent;
+}
+
+#div_Gvpanelc table tr td.tabContent_left {
+    background-color: #f5f5f5;
+    border-left: 1px solid #002b54;
+    padding: 10px 0 0 10px;
+}
+#div_Gvpanelc table tr td.tabContent_right {
+    background-color: #f5f5f5;
+    border-right: 1px solid #002b54;
+    padding: 10px 10px 0 0;
+}
+#div_Gvpanelc table tr td.tabContent_middle {
+    background-color: #f5f5f5;
+    padding-top: 10px;
+}
+
+.tabContent {
+    background-color: #f5f5f5;
+    border-left: 1px solid #002b54;
+    border-right: 1px solid #002b54;
+    padding: 0 10px;
+}
+
+#GridViewPanelControl_tabmenu_LinkTools {
+    text-align: right;
+}
+/*end Tabs Table/Graph/Map*/
+.restricted {
+	color: #c48e8c !important;
+}
+
+/* Navigation */
+.navtable1 .mainselect {
+    width: 350px;
+}
+.ddl_More {
+    color:#ffffff !important;
+	background-color: #0d9de7 !important;
+}
