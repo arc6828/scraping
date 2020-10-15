@@ -36,12 +36,15 @@ nightmare
     .wait('#ctl00_PageContent_MyGridView1')
     //CHOOSE TIMEPEROIDS PER PAGE     
     .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_NumTimePeriod', '20')
+    .wait(5000)
     .wait('#ctl00_PageContent_MyGridView1')
     //CHOOSE ROWS PER PAGE
     .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_PageSize', '300')
+    .wait(5000)
     .wait('#ctl00_PageContent_MyGridView1')
     //CHOOSE UNIT    
     .select('#ctl00_NavigationControl_DropDownList_TS_Indicator', 'Q')    
+    .wait(5000)
     .wait('#ctl00_PageContent_MyGridView1')
     .then(() => {        
         extract();
@@ -114,71 +117,86 @@ async function extract(){
     var count=0;
     var pages = [];
     //var pages = [];
+
+    //CHOOSE IMPORT OR EXPORT
     for(let mode of ["E","I"]){
         await nightmare         
             .select('#ctl00_NavigationControl_DropDownList_TradeType', mode)
             .wait(5000)
             .wait('#ctl00_PageContent_MyGridView1')
-        for(let product of products){
-        
-            //156 means china
+        //CHOOSE UNIT
+        for(let unit of ["Q","V"]){
+            //Q : kg
+            //V : US Dollar thousand
             await nightmare         
-                .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,2))
+                .select('#ctl00_NavigationControl_DropDownList_TS_Indicator', unit)
                 .wait(5000)
                 .wait('#ctl00_PageContent_MyGridView1')
-                .wait(5000)            
-                .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,4))
-                .wait(5000)
-                .wait('#ctl00_PageContent_MyGridView1')            
-                .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,6))
-                .wait(5000)
-                .wait('#ctl00_PageContent_MyGridView1')
-            //break;
-    
-            for(let country of countries){
-                //IF FILE EXIST, CONTINUE
-                let filename = "html/"+mode+"_"+country.iso_code+"_"+product.code+".html";
-                try {
-                    if(fs.existsSync(filename)){ 
-                        //file exists
-                        console.log(++count,product.name, product.code,country.name, country.code,"SKIPPED!!!");
-                        continue; 
-                    }else{                
-                        console.log(++count,product.name, product.code,country.name, country.code);
-                    } 
-                } catch(err) {
-                    console.error(err)
-                }
+            //CHOOSE PRODUCT 
+            for(let product of products){
                 
-                
-    
                 //156 means china
-                await nightmare 
-                    .select('#ctl00_NavigationControl_DropDownList_Country', pad(country.code.toString(),3)  ) 
+                await nightmare         
+                    .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,2))
                     .wait(5000)
                     .wait('#ctl00_PageContent_MyGridView1')
-                    // pages.push({ "product" : product, "country" : country, });   
-                    // await nightmare
-                    //     //TRADE MAP
-                    //         //FETCH URL
-                    //     //.goto('https://www.trademap.org')
-                    //     .goto('file:///C:/Users/Chavalit/Documents/GitHub/scraping/Trade%20Map%20-%20List%20of%20supplying%20markets%20for%20a%20product%20imported%20by%20China.html')
-                    .evaluate(function(){
-                        //console.log(hello);
-                        let title = "<h1>"+document.querySelector("#ctl00_TitleContent").textContent+"</h1>";
-                        let table = document.querySelector("#ctl00_PageContent_MyGridView1").parentNode.innerHTML 
+                    .wait(5000)            
+                    .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,4))
+                    .wait(5000)
+                    .wait('#ctl00_PageContent_MyGridView1')            
+                    .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,6))
+                    .wait(5000)
+                    .wait('#ctl00_PageContent_MyGridView1')
+                //break;
 
-                        return title + table;
-                    })
-                    .then(text => {
-                        fs.writeFileSync(filename, text);
-                    })
-                    .catch(error => {
-                        console.error('Search failed:', error)
-                    })  
+
+                //CHOOSE COUNTRY
+                for(let country of countries){
+                    //IF FILE EXIST, CONTINUE
+                    let filename = "html/"+mode+"_"+unit+"_"+country.iso_code+"_"+product.code+"_.html";
+                    try {
+                        if(fs.existsSync(filename)){ 
+                            //file exists
+                            console.log(++count,product.name, product.code,country.name, country.code,"SKIPPED!!!");
+                            continue; 
+                        }else{                
+                            console.log(++count,product.name, product.code,country.name, country.code);
+                        } 
+                    } catch(err) {
+                        console.error(err)
+                    }
+                    
+                    
+        
+                    //156 means china
+                    await nightmare 
+                        .select('#ctl00_NavigationControl_DropDownList_Country', pad(country.code.toString(),3)  ) 
+                        .wait(5000)
+                        .wait('#ctl00_PageContent_MyGridView1')
+                        // pages.push({ "product" : product, "country" : country, });   
+                        // await nightmare
+                        //     //TRADE MAP
+                        //         //FETCH URL
+                        //     //.goto('https://www.trademap.org')
+                        //     .goto('file:///C:/Users/Chavalit/Documents/GitHub/scraping/Trade%20Map%20-%20List%20of%20supplying%20markets%20for%20a%20product%20imported%20by%20China.html')
+                        .evaluate(function(){
+                            //console.log(hello);
+                            let title = "<h1>"+document.querySelector("#ctl00_TitleContent").textContent+"</h1>";
+                            let table = document.querySelector("#ctl00_PageContent_MyGridView1").parentNode.innerHTML 
+
+                            return title + table;
+                        })
+                        .then(text => {
+                            fs.writeFileSync(filename, text);
+                        })
+                        .catch(error => {
+                            console.error('Search failed:', error)
+                        })  
+                }
+                //break;
             }
-            break;
         }
+            
     }
     
 
