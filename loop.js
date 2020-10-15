@@ -21,33 +21,14 @@ nightmare
     .type('#Password', 'goodmorning')
     //CLICK LOGIN
     .click('button[name="button"]')
-//TRADEMAP AGAIN
-    //WAIT
-    .wait('#ctl00_PageContent_RadComboBox_Product_Input')
-    //TYPE RICE
-    .type('#ctl00_PageContent_RadComboBox_Product_Input', ' rice')
-    //CLICK TITLE 1006
-    .wait('div[title="1006 - Rice"]')
-    .click('div[title="1006 - Rice"]')
-    //CLICK MONTHLY TIME SERIES
-    .click('#ctl00_PageContent_Button_TimeSeries_M')
-//TARTGET PAGE
-    //WAIT
-    .wait('#ctl00_PageContent_MyGridView1')
-    //CHOOSE TIMEPEROIDS PER PAGE     
-    .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_NumTimePeriod', '20')
-    .wait(5000)
-    .wait('#ctl00_PageContent_MyGridView1')
-    //CHOOSE ROWS PER PAGE
-    .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_PageSize', '300')
-    .wait(5000)
-    .wait('#ctl00_PageContent_MyGridView1')
-    //CHOOSE UNIT    
-    .select('#ctl00_NavigationControl_DropDownList_TS_Indicator', 'Q')    
-    .wait(5000)
-    .wait('#ctl00_PageContent_MyGridView1')
-    .then(() => {        
-        extract();
+    .then(async () => {        
+        let scrapeRemain = true;
+        while(scrapeRemain){
+            //EXTRACT RETURN FALSE IF SOMETHING ERROR
+            let statusNormal = await extract();
+            scrapeRemain = ! statusNormal;
+        }
+        
     })
     //CHOOSE COUNTRY
     
@@ -99,6 +80,32 @@ nightmare
 
 //TEST
 async function extract(){
+    let statusNormal = true;
+    await nightmare         
+        //TRADEMAP AGAIN
+        //.goto('https://www.trademap.org')
+        //WAIT
+        .wait('#ctl00_PageContent_RadComboBox_Product_Input')
+        //TYPE RICE
+        .type('#ctl00_PageContent_RadComboBox_Product_Input', ' rice')
+        //CLICK TITLE 1006
+        .wait('div[title="1006 - Rice"]')
+        .click('div[title="1006 - Rice"]')
+        //CLICK MONTHLY TIME SERIES
+        .click('#ctl00_PageContent_Button_TimeSeries_M')
+    //TARTGET PAGE
+        //WAIT
+        .wait('#ctl00_PageContent_MyGridView1')
+        //CHOOSE TIMEPEROIDS PER PAGE     
+        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_NumTimePeriod', '20')
+        .wait(10000)
+        .wait('#ctl00_PageContent_MyGridView1')
+        //CHOOSE ROWS PER PAGE
+        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_PageSize', '300')
+        .wait(10000)
+        .wait('#ctl00_PageContent_MyGridView1')
+    //ACCESS THE TARGET
+    
     //LOOP THROUGH COUNTRIES & PRODUCTS
     var fs = require('fs');
 
@@ -115,8 +122,6 @@ async function extract(){
     let products = JSON.parse(content_products);
     //console.log(content);
     var count=0;
-    var pages = [];
-    //var pages = [];
 
     //CHOOSE IMPORT OR EXPORT
     for(let mode of ["E","I"]){
@@ -124,6 +129,10 @@ async function extract(){
             .select('#ctl00_NavigationControl_DropDownList_TradeType', mode)
             .wait(5000)
             .wait('#ctl00_PageContent_MyGridView1')
+            .catch(error => {
+                console.error('Search failed:', error)
+                statusNormal = false;
+            }) 
         //CHOOSE UNIT
         for(let unit of ["Q","V"]){
             //Q : kg
@@ -132,6 +141,10 @@ async function extract(){
                 .select('#ctl00_NavigationControl_DropDownList_TS_Indicator', unit)
                 .wait(5000)
                 .wait('#ctl00_PageContent_MyGridView1')
+                .catch(error => {
+                    console.error('Search failed:', error)
+                    statusNormal = false;
+                }) 
             //CHOOSE PRODUCT 
             for(let product of products){
                 
@@ -147,6 +160,10 @@ async function extract(){
                     .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,6))
                     .wait(5000)
                     .wait('#ctl00_PageContent_MyGridView1')
+                    .catch(error => {
+                        console.error('Search failed:', error)
+                        statusNormal = false;
+                    }) 
                 //break;
 
 
@@ -164,6 +181,7 @@ async function extract(){
                         } 
                     } catch(err) {
                         console.error(err)
+                        statusNormal = false;
                     }
                     
                     
@@ -191,18 +209,36 @@ async function extract(){
                         })
                         .catch(error => {
                             console.error('Search failed:', error)
+                            statusNormal = false;
                         })  
-                }
+                    //CHECK
+                    if(!statusNormal){
+                        return false;
+                    }
+                }//END OF COUNTRY LOOP
                 //break;
+                //CHECK
+                if(!statusNormal){
+                    return false;
+                }
+            }//END OF PRODUCT LOOP
+            //CHECK
+            if(!statusNormal){
+                return false;
             }
+        }//END OF UNIT LOOP
+        //CHECK
+        if(!statusNormal){
+            return false;
         }
             
-    }
+    }//END OF EXIM LOOP
     
+    return true;    
+    
+}
 
-    function pad(num, size) {
-        var s = "000000000" + num;
-        return s.substr(s.length-size);
-    }
-    
+function pad(num, size) {
+    var s = "000000000" + num;
+    return s.substr(s.length-size);
 }
