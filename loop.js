@@ -1,3 +1,5 @@
+//LOOP THROUGH COUNTRIES & PRODUCTS
+var fs = require('fs');
 const Nightmare = require('nightmare')
 const nightmare = Nightmare({ 
     show: true,
@@ -25,6 +27,7 @@ nightmare
         let scrapeRemain = true;
         while(scrapeRemain){
             //EXTRACT RETURN FALSE IF SOMETHING ERROR
+            console.log("Before Extract");
             let statusNormal = await extract();
             scrapeRemain = ! statusNormal;
         }
@@ -86,6 +89,10 @@ async function extract(){
         //.goto('https://www.trademap.org')
         //WAIT
         .wait('#ctl00_PageContent_RadComboBox_Product_Input')
+        .then(function(){            
+            console.log("Trade Map Page");
+        });
+    await nightmare
         //TYPE RICE
         .type('#ctl00_PageContent_RadComboBox_Product_Input', ' rice')
         //CLICK TITLE 1006
@@ -95,19 +102,29 @@ async function extract(){
         .click('#ctl00_PageContent_Button_TimeSeries_M')
     //TARTGET PAGE
         //WAIT
-        .wait('#ctl00_PageContent_MyGridView1')
+        .wait('#ctl00_PageContent_MyGridView1')        
+        .then(function(){            
+            console.log("Target Page");
+        });
+    await nightmare
         //CHOOSE TIMEPEROIDS PER PAGE     
-        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_NumTimePeriod', '20')
+        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_NumTimePeriod', '20')        
+        .then(function(){            
+            console.log("Select time period 20 months");
+        });
+    await nightmare
         .wait(10000)
         .wait('#ctl00_PageContent_MyGridView1')
         //CHOOSE ROWS PER PAGE
-        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_PageSize', '300')
+        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_PageSize', '300')        
+        .then(function(){            
+            console.log("Select 300 rows per page");
+        });
+    await nightmare
         .wait(10000)
         .wait('#ctl00_PageContent_MyGridView1')
     //ACCESS THE TARGET
     
-    //LOOP THROUGH COUNTRIES & PRODUCTS
-    var fs = require('fs');
 
     //READ COUNTRIES
     let filename_countries = "json/final-countries.json";
@@ -124,11 +141,15 @@ async function extract(){
     var count=0;
 
     //CHOOSE IMPORT OR EXPORT
+    //17680 LOOPS : MODE(2) x QV(2) x PRODUCT(40) x COUNTRY(221)
     for(let mode of ["E","I"]){
         await nightmare         
             .select('#ctl00_NavigationControl_DropDownList_TradeType', mode)
-            .wait(5000)
+            .wait(10000)
             .wait('#ctl00_PageContent_MyGridView1')
+            .then(function(){            
+                console.log("Select import or export");
+            })
             .catch(error => {
                 console.error('Search failed:', error)
                 statusNormal = false;
@@ -139,27 +160,73 @@ async function extract(){
             //V : US Dollar thousand
             await nightmare         
                 .select('#ctl00_NavigationControl_DropDownList_TS_Indicator', unit)
-                .wait(5000)
+                .wait(10000)
                 .wait('#ctl00_PageContent_MyGridView1')
+                .then(function(){            
+                    console.log("Select Quantity or Values");
+                })
                 .catch(error => {
                     console.error('Search failed:', error)
                     statusNormal = false;
                 }) 
             //CHOOSE PRODUCT 
             for(let product of products){
+                //CHECK IF FILES IS COMPLETED, then CONTINUE NEXT LOOP
+                try {
+                    
+                    let partial_filename = mode+"_"+unit+"_"+product.code;
+                    let file_count = 0;                    
+                    const testFolder = './html/';
+                    fs.readdirSync(testFolder).forEach(file => {
+                        let splits = file.split("_");
+                        if(splits.length == 5){
+                            let newPath = splits[0]+"_"+splits[1]+"_"+splits[2];                            
+                            if(partial_filename == newPath){
+                                file_count++;
+                            }
+                            //console.log(newPath);
+                        }
+                    });
+                    if( file_count == countries.length ){
+                        count+=countries.length;
+                        continue;
+                    }
+                    
+                } catch(err) {
+                    console.error(err)
+                    statusNormal = false;
+                }
+
                 
-                //156 means china
                 await nightmare         
-                    .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,2))
-                    .wait(5000)
-                    .wait('#ctl00_PageContent_MyGridView1')
-                    .wait(5000)            
+                    .select('#ctl00_NavigationControl_DropDownList_Product', "TOTAL") 
+                    .wait(10000)
+                    .wait('#ctl00_PageContent_MyGridView1')                   
+                    .then(function(){            
+                        console.log("TOTAL");
+                    });
+                
+                await nightmare         
+                    .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,2)) 
+                    .wait(10000)
+                    .wait('#ctl00_PageContent_MyGridView1')                   
+                    .then(function(){            
+                        console.log("Plant 2 digits");
+                    });
+                await nightmare
                     .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,4))
-                    .wait(5000)
+                    .wait(10000)
                     .wait('#ctl00_PageContent_MyGridView1')            
-                    .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,6))
-                    .wait(5000)
+                    .then(function(){            
+                        console.log("Plant 4 digits");
+                    });
+                await nightmare
+                    .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString())
+                    .wait(10000)
                     .wait('#ctl00_PageContent_MyGridView1')
+                    .then(function(){            
+                        console.log("Plant 6 digits");
+                    })
                     .catch(error => {
                         console.error('Search failed:', error)
                         statusNormal = false;
@@ -170,7 +237,8 @@ async function extract(){
                 //CHOOSE COUNTRY
                 for(let country of countries){
                     //IF FILE EXIST, CONTINUE
-                    let filename = "html/"+mode+"_"+unit+"_"+country.iso_code+"_"+product.code+"_.html";
+                    // let filename = "html/"+mode+"_"+unit+"_"+country.iso_code+"_"+product.code+"_.html";
+                    let filename = "html/"+mode+"_"+unit+"_"+product.code+"_"+country.iso_code+"_.html";
                     try {
                         if(fs.existsSync(filename)){ 
                             //file exists
@@ -189,7 +257,7 @@ async function extract(){
                     //156 means china
                     await nightmare 
                         .select('#ctl00_NavigationControl_DropDownList_Country', pad(country.code.toString(),3)  ) 
-                        .wait(5000)
+                        .wait(10000)
                         .wait('#ctl00_PageContent_MyGridView1')
                         // pages.push({ "product" : product, "country" : country, });   
                         // await nightmare
