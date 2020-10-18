@@ -32,45 +32,7 @@ nightmare
             scrapeRemain = ! statusNormal;
         }
         
-    })
-    //CHOOSE COUNTRY
-    
-    //CHOOSE PRODUCT
-
-    //CHOOSE IMPORT
-    //.click('#ctl00_PageContent_GridViewPanelControl_ImageButton_ExportExcel')
-    //.type('#ctl00_PageContent_RadComboBox_Product_Input', ' rice')
-    //.type('body', '\u000d')
-
-    
-    //CHOOSE MODE COUNTRY
-    //SELECT DROP DOWN COUNTRIES
-
-
-
-    // //TYPE SPECIFIED INPUT
-    // .type('#search_form_input_homepage', 'github nightmare')
-    // //CLICK SPECIFIED BUTTON
-    // .click('#search_button_homepage')
-    // //WAIT UNTIL ELEMENT IS PRESENT
-    // .wait('a.result__a')
-
-    // .evaluate(() => {
-    //     let elements = document.querySelectorAll('a.result__a');
-    //     let urls = Array.from(elements).map(el => el.href);
-    //     return JSON.stringify(urls);
-
-    // })
-    //.end()
-    // .then((text) => {
-    //     text = JSON.parse(text);
-    //     text.forEach((t)=>console.log(t))
-    //     /*
-    //     elements.forEach(function(el) {
-    //         console.log(el.href);
-    //     });*/
-
-    // })
+    })    
     .catch(error => {
         console.error('Search failed:', error)
     })
@@ -91,6 +53,10 @@ async function extract(){
         .wait('#ctl00_PageContent_RadComboBox_Product_Input')
         .then(function(){            
             console.log("Trade Map Page");
+        })
+        .catch(error => {
+            console.error('Search failed:', error)
+            statusNormal = false;
         });
     await nightmare
         //TYPE RICE
@@ -105,12 +71,20 @@ async function extract(){
         .wait('#ctl00_PageContent_MyGridView1')        
         .then(function(){            
             console.log("Target Page");
+        })
+        .catch(error => {
+            console.error('Search failed:', error)
+            statusNormal = false;
         });
     await nightmare
         //CHOOSE TIMEPEROIDS PER PAGE     
         .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_NumTimePeriod', '20')        
         .then(function(){            
             console.log("Select time period 20 months");
+        })
+        .catch(error => {
+            console.error('Search failed:', error)
+            statusNormal = false;
         });
     await nightmare
         .wait(10000)
@@ -119,10 +93,18 @@ async function extract(){
         .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_PageSize', '300')        
         .then(function(){            
             console.log("Select 300 rows per page");
+        })
+        .catch(error => {
+            console.error('Search failed:', error)
+            statusNormal = false;
         });
     await nightmare
         .wait(10000)
         .wait('#ctl00_PageContent_MyGridView1')
+        .catch(error => {
+            console.error('Search failed:', error)
+            statusNormal = false;
+        })
     //ACCESS THE TARGET
     
 
@@ -142,33 +124,34 @@ async function extract(){
 
     //CHOOSE IMPORT OR EXPORT
     //17680 LOOPS : MODE(2) x QV(2) x PRODUCT(40) x COUNTRY(221)
-    for(let mode of ["E","I"]){
-        await nightmare         
-            .select('#ctl00_NavigationControl_DropDownList_TradeType', mode)
-            .wait(10000)
-            .wait('#ctl00_PageContent_MyGridView1')
-            .then(function(){            
-                console.log("Select import or export");
-            })
-            .catch(error => {
-                console.error('Search failed:', error)
-                statusNormal = false;
-            }) 
-        //CHOOSE UNIT
-        for(let unit of ["Q","V"]){
-            //Q : kg
-            //V : US Dollar thousand
-            await nightmare         
-                .select('#ctl00_NavigationControl_DropDownList_TS_Indicator', unit)
-                .wait(10000)
-                .wait('#ctl00_PageContent_MyGridView1')
-                .then(function(){            
-                    console.log("Select Quantity or Values");
-                })
-                .catch(error => {
-                    console.error('Search failed:', error)
-                    statusNormal = false;
-                }) 
+	//CHOOSE UNIT
+	for(let unit of ["Q","V"]){
+		//Q : kg
+		//V : US Dollar thousand
+		await nightmare         
+			.select('#ctl00_NavigationControl_DropDownList_TS_Indicator', unit)
+			.wait(10000)
+			.wait('#ctl00_PageContent_MyGridView1')
+			.then(function(){            
+				console.log("Select Quantity or Values");
+			})
+			.catch(error => {
+				console.error('Search failed:', error)
+				statusNormal = false;
+			}) 
+		for(let mode of ["E","I"]){
+			await nightmare         
+				.select('#ctl00_NavigationControl_DropDownList_TradeType', mode)
+				.wait(10000)
+				.wait('#ctl00_PageContent_MyGridView1')
+				.then(function(){            
+					console.log("Select import or export");
+				})
+				.catch(error => {
+					console.error('Search failed:', error)
+					statusNormal = false;
+				}) 
+        
             //CHOOSE PRODUCT 
             for(let product of products){
                 //CHECK IF FILES IS COMPLETED, then CONTINUE NEXT LOOP
@@ -204,6 +187,10 @@ async function extract(){
                     .wait('#ctl00_PageContent_MyGridView1')                   
                     .then(function(){            
                         console.log("TOTAL");
+                    })
+                    .catch(error => {
+                        console.error('Search failed:', error)
+                        statusNormal = false;
                     });
                 
                 await nightmare         
@@ -212,6 +199,10 @@ async function extract(){
                     .wait('#ctl00_PageContent_MyGridView1')                   
                     .then(function(){            
                         console.log("Plant 2 digits");
+                    })
+                    .catch(error => {
+                        console.error('Search failed:', error)
+                        statusNormal = false;
                     });
                 await nightmare
                     .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString().substring(0,4))
@@ -219,6 +210,10 @@ async function extract(){
                     .wait('#ctl00_PageContent_MyGridView1')            
                     .then(function(){            
                         console.log("Plant 4 digits");
+                    })
+                    .catch(error => {
+                        console.error('Search failed:', error)
+                        statusNormal = false;
                     });
                 await nightmare
                     .select('#ctl00_NavigationControl_DropDownList_Product', product.code.toString())
@@ -242,10 +237,10 @@ async function extract(){
                     try {
                         if(fs.existsSync(filename)){ 
                             //file exists
-                            console.log(++count,product.name, product.code,country.name, country.code,"SKIPPED!!!");
+                            console.log(++count, Number(count*100 / (products.length * countries.length * 4)).toFixed(0) , product.name, product.code,country.name, country.code,"SKIPPED!!!");
                             continue; 
                         }else{                
-                            console.log(++count,product.name, product.code,country.name, country.code);
+                            console.log(++count, Number(count*100 / (products.length * countries.length * 4)).toFixed(0) , product.name, product.code,country.name, country.code);
                         } 
                     } catch(err) {
                         console.error(err)
