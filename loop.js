@@ -125,7 +125,7 @@ async function extract(){
     //CHOOSE IMPORT OR EXPORT
     //17680 LOOPS : MODE(2) x QV(2) x PRODUCT(40) x COUNTRY(221)
 	//CHOOSE UNIT
-	for(let unit of ["Q","V"]){
+	for(let unit of ["Q"]){//["Q","V"]
 		//Q : kg
 		//V : US Dollar thousand
 		await nightmare         
@@ -237,10 +237,10 @@ async function extract(){
                     try {
                         if(fs.existsSync(filename)){ 
                             //file exists
-                            console.log(++count, Number(count*100 / (products.length * countries.length * 4)).toFixed(0) , product.name, product.code,country.name, country.code,"SKIPPED!!!");
+                            console.log(++count, Number(count*100 / (products.length * countries.length * 2)).toFixed(0) , product.name, product.code,country.name, country.code,"SKIPPED!!!");
                             continue; 
                         }else{                
-                            console.log(++count, Number(count*100 / (products.length * countries.length * 4)).toFixed(0) , product.name, product.code,country.name, country.code);
+                            console.log(++count, Number(count*100 / (products.length * countries.length * 2)).toFixed(0) , product.name, product.code,country.name, country.code);
                         } 
                     } catch(err) {
                         console.error(err)
