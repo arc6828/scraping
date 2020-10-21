@@ -6,7 +6,7 @@ paths = os.listdir("html")
 # html_files
 
 # paths
-files = [ { "name" : path,  "size" : int (os.stat("html/"+path).st_size / 1024) } for path in paths]
+files = [ { "name" : path,  "size" : int (os.stat("html/"+path).st_size / 1024) , "n" : path.split(".")[0]} for path in paths]
 # files
 
 #http://localhost:8888/view/sample.html
@@ -16,6 +16,15 @@ for f in files :
     if f["size"] > 0 : 
         if ".zip" in f["name"] :
             continue 
+        #IF FILE EXIST, CONTINUE
+        p = "data/"+f["n"]+".json"
+
+        if os.path.exists(p) :
+            print(p+' SKIPPED!!!')
+            continue 
+        
+        
+
         #filename = html_files[1]
         dfs = pd.read_html('html/'+f["name"], header=[0])
         # dfs[0]
@@ -47,12 +56,12 @@ for f in files :
                 })
 
         #WRITE FILE
-        print('data/'+f["name"]+'.json')
-        with open('data/'+f["name"]+'.json', 'w') as outfile:
+        print('data/'+f["n"]+'.json')
+        with open('data/'+f["n"]+'.json', 'w') as outfile:
             json.dump(data_list, outfile)
     else : 
         data_list = []
-        with open('data/'+f["name"]+'.json', 'w') as outfile:
+        with open('data/'+f["n"]+'.json', 'w') as outfile:
             json.dump(data_list, outfile)
                 
 
