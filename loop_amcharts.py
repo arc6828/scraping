@@ -71,8 +71,8 @@ for file in files :
                     "list" : {
 
                     },
-                    "world_import" : 0 ,
-                    "world_export" : 0 ,
+                    "import" : 0 ,
+                    "export" : 0 ,
                 }
 
             #INSERT IF NO COUNTRY CODE KEY                    
@@ -85,7 +85,7 @@ for file in files :
                 }
             #INSERT DATA
             world_timeline[date]["list"][code]["import"] = int(value)
-            world_timeline[date]["world_import"] += int(value)
+            world_timeline[date]["import"] += int(value)
 
     #EXPORT           
     if len(export_data)  > 0 :            
@@ -104,8 +104,8 @@ for file in files :
                     "list" : {
 
                     },
-                    "world_import" : 0 ,
-                    "world_export" : 0 ,
+                    "import" : 0 ,
+                    "export" : 0 ,
                 }
 
             #INSERT IF NO COUNTRY CODE KEY                    
@@ -118,7 +118,7 @@ for file in files :
                 }
             #INSERT DATA
             world_timeline[date]["list"][code]["export"] = int(value)            
-            world_timeline[date]["world_export"] += int(value)
+            world_timeline[date]["export"] += int(value)
 
     #WRITE JSON
     for date_key in world_timeline : 

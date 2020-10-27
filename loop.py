@@ -23,8 +23,8 @@ files = [ { "name" : path,  "size" : int (os.stat("html/"+path).st_size / 1024) 
 for f in files : 
 
     if f["size"] > 0 : 
-        if f["name"][0:1] == "I" :
-            continue
+        # if f["name"][0:1] == "I" :
+        #     continue
         if ".zip" in f["name"] :
             continue 
         #IF FILE EXIST, CONTINUE
