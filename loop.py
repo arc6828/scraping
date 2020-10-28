@@ -66,9 +66,17 @@ for f in files :
                 c_name = cols[1]
                 country = [c for c in countries if c["name"] == c_name]
                 country_to_code =  country[0]["iso_code"]  if len(country) > 0  else  "-"
+                #print(str(f["name"]))
                 country_from_code = str(f["name"]).split("_")[3]
 
                 if "name" in  head.replace("M","") :
+                    dict_error[f["name"]] = True
+
+                html = open("html/"+f["name"], "r")
+                text = html.read()
+
+
+                if "total" in  text :
                     dict_error[f["name"]] = True
 
                 data_list.append({
@@ -84,13 +92,14 @@ for f in files :
         print(count, 'data/'+f["n"]+'.json')
         with open('data/'+f["n"]+'.json', 'w') as outfile:
             json.dump(data_list, outfile)
-    else : 
+    else :         
+        count += 1
         data_list = []
         with open('data/'+f["n"]+'.json', 'w') as outfile:
             json.dump(data_list, outfile)
 
 #print('data/'+f["n"]+'.json')
-with open('error2.json', 'w') as outfile:
+with open('error.json', 'w') as outfile:
     json.dump(dict_error, outfile)
                 
 
