@@ -20,6 +20,8 @@ files = [ { "name" : path,  "size" : int (os.stat("html/"+path).st_size / 1024) 
 
 #http://localhost:8888/view/sample.html
 #dfs = pd.read_html('html/E_BE_100610.html',header=[0])
+dict_error = {}
+count = 0 
 for f in files : 
 
     if f["size"] > 0 : 
@@ -31,6 +33,7 @@ for f in files :
         p = "data/"+f["n"]+".json"
 
         if os.path.exists(p) :
+            count += 1
             print(p+' SKIPPED!!!')
             continue 
         
@@ -65,6 +68,9 @@ for f in files :
                 country_to_code =  country[0]["iso_code"]  if len(country) > 0  else  "-"
                 country_from_code = str(f["name"]).split("_")[3]
 
+                if "name" in  head.replace("M","") :
+                    dict_error[f["name"]] = True
+
                 data_list.append({
                     "date" : head.replace("M","")+"-01" ,
                     "country_from" : country_from_code,
@@ -74,13 +80,18 @@ for f in files :
                 })
 
         #WRITE FILE
-        print('data/'+f["n"]+'.json')
+        count += 1
+        print(count, 'data/'+f["n"]+'.json')
         with open('data/'+f["n"]+'.json', 'w') as outfile:
             json.dump(data_list, outfile)
     else : 
         data_list = []
         with open('data/'+f["n"]+'.json', 'w') as outfile:
             json.dump(data_list, outfile)
+
+#print('data/'+f["n"]+'.json')
+with open('error2.json', 'w') as outfile:
+    json.dump(dict_error, outfile)
                 
 
 

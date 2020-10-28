@@ -78,7 +78,9 @@ async function extract(){
         });
     await nightmare
         //CHOOSE TIMEPEROIDS PER PAGE     
-        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_NumTimePeriod', '20')        
+        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_NumTimePeriod', '20')      
+        .wait(10000)  
+        .wait('#ctl00_PageContent_MyGridView1')
         .then(function(){            
             console.log("Select time period 20 months");
         })
@@ -87,10 +89,10 @@ async function extract(){
             statusNormal = false;
         });
     await nightmare
-        .wait(10000)
-        .wait('#ctl00_PageContent_MyGridView1')
         //CHOOSE ROWS PER PAGE
-        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_PageSize', '300')        
+        .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_PageSize', '300')  
+        .wait(10000)     
+        .wait('#ctl00_PageContent_MyGridView1') 
         .then(function(){            
             console.log("Select 300 rows per page");
         })
@@ -98,13 +100,7 @@ async function extract(){
             console.error('Search failed:', error)
             statusNormal = false;
         });
-    await nightmare
-        .wait(10000)
-        .wait('#ctl00_PageContent_MyGridView1')
-        .catch(error => {
-            console.error('Search failed:', error)
-            statusNormal = false;
-        })
+    
     //ACCESS THE TARGET
     
 
@@ -226,6 +222,31 @@ async function extract(){
                         console.error('Search failed:', error)
                         statusNormal = false;
                     }) 
+
+                await nightmare
+                    //CHOOSE TIMEPEROIDS PER PAGE     
+                    .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_NumTimePeriod', '20')      
+                    .wait(10000)  
+                    .wait('#ctl00_PageContent_MyGridView1')
+                    .then(function(){            
+                        console.log("Select time period 20 months");
+                    })
+                    .catch(error => {
+                        console.error('Search failed:', error)
+                        statusNormal = false;
+                    });
+                await nightmare
+                    //CHOOSE ROWS PER PAGE
+                    .select('#ctl00_PageContent_GridViewPanelControl_DropDownList_PageSize', '300')  
+                    .wait(10000)     
+                    .wait('#ctl00_PageContent_MyGridView1') 
+                    .then(function(){            
+                        console.log("Select 300 rows per page");
+                    })
+                    .catch(error => {
+                        console.error('Search failed:', error)
+                        statusNormal = false;
+                    });
                 //break;
 
 

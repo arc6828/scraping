@@ -59,10 +59,12 @@ for file in files :
             date = row["date"]
             value = row["value"]
             unit = row["unit"]
-            c_name = row['country'] 
+            # c_name = row['country'] 
             #GET COUNTRY CODE 
-            country = [c for c in countries if c["name"] == c_name]
-            code =  country[0]["iso_code"]  if len(country) > 0  else  "-"
+            # country = [c for c in countries if c["name"] == c_name]
+            # code =  country[0]["iso_code"]  if len(country) > 0  else  "-"
+            #STILL PROBLEM
+            code = row['country_to']
 
             #INSERT IF NO DATE KEY
             if date not in world_timeline : 
@@ -93,10 +95,13 @@ for file in files :
             date = row["date"]
             value = row["value"]
             unit = row["unit"]
-            c_name = row['country'] 
+            # c_name = row['country'] 
             #GET COUNTRY CODE 
-            country = [c for c in countries if c["name"] == c_name]
-            code =  country[0]["iso_code"]  if len(country) > 0  else  "-"
+            # country = [c for c in countries if c["name"] == c_name]
+            # code =  country[0]["iso_code"]  if len(country) > 0  else  "-"            
+            #STILL PROBLEM
+            code = row['country_to']
+            
             #INSERT IF NO DATE KEY
             if date not in world_timeline : 
                 world_timeline[date] = {
