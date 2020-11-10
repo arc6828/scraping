@@ -65,11 +65,14 @@ for file in files :
             # code =  country[0]["iso_code"]  if len(country) > 0  else  "-"
             #STILL PROBLEM
             code = row['country_to']
+            #
+            code2 = export_filename.split("_")[3]
 
             #INSERT IF NO DATE KEY
             if date not in world_timeline : 
                 world_timeline[date] = {
                     "date" : date,
+                    "selected_country" : code2,
                     "list" : {
 
                     },
@@ -101,11 +104,14 @@ for file in files :
             # code =  country[0]["iso_code"]  if len(country) > 0  else  "-"            
             #STILL PROBLEM
             code = row['country_to']
+            #
+            code2 = export_filename.split("_")[3]
             
             #INSERT IF NO DATE KEY
             if date not in world_timeline : 
                 world_timeline[date] = {
                     "date" : date,
+                    "selected_country" : code2,
                     "list" : {
 
                     },
@@ -121,6 +127,13 @@ for file in files :
                     "id" : code,
                     #"unit" : unit
                 }
+            # if code2 not in world_timeline[date]["list"]:
+            #     world_timeline[date]["list"][code2] = {
+            #         "import" : 0,
+            #         "export" : 0,
+            #         "id" : code2,
+            #         #"unit" : unit
+            #     }
             #INSERT DATA
             world_timeline[date]["list"][code]["export"] = int(value)            
             world_timeline[date]["export"] += int(value)
